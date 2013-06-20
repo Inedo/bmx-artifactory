@@ -32,11 +32,11 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="BuildMaster.Web.Controls">
-      <HintPath>..\packages\Inedo.BuildMaster.SDK.3.6\lib\net20\BuildMaster.Web.Controls.dll</HintPath>
+      <HintPath>..\packages\Inedo.BuildMaster.SDK.3.5\lib\net20\BuildMaster.Web.Controls.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="BuildMasterCore">
-      <HintPath>..\packages\Inedo.BuildMaster.SDK.3.6\lib\net20\BuildMasterCore.dll</HintPath>
+      <HintPath>..\packages\Inedo.BuildMaster.SDK.3.5\lib\net20\BuildMasterCore.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="ICSharpCode.SharpZipLib">
@@ -44,11 +44,12 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="InedoLib">
-      <HintPath>..\packages\Inedo.BuildMaster.SDK.3.6\lib\net20\InedoLib.dll</HintPath>
+      <HintPath>..\packages\Inedo.BuildMaster.SDK.3.5\lib\net20\InedoLib.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data" />
@@ -56,11 +57,41 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ArtifactoryActionBase.cs" />
+    <Compile Include="ArtifactoryActionBaseEditor.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="ArtifactoryConfigurer.cs" />
+    <Compile Include="ArtifactoryConfigurerEditor.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="Authentication.cs" />
     <Compile Include="CreateDirectoryAction.cs" />
+    <Compile Include="CreateDirectoryActionEditor.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="DeleteItemAction.cs" />
+    <Compile Include="DeleteItemActionEditor.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="DeployArtifactAction.cs" />
+    <Compile Include="DeployArtifactActionEditor.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Extensions.cs" />
+    <Compile Include="MoveItemAction.cs" />
+    <Compile Include="MoveItemActionEditor.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Response.cs" />
+    <Compile Include="RetrieveArtifactAction.cs" />
+    <Compile Include="RetrieveArtifactActionEditor.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="SetItemPropertiesAction.cs" />
+    <Compile Include="SetItemPropertiesActionEditor.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

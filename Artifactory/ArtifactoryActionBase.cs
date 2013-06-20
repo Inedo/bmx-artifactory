@@ -21,7 +21,10 @@ namespace Inedo.BuildMasterExtensions.Artifactory
         internal ArtifactoryConfigurer TestConfigurer { get; set; }
 
         [Persistent]
-        public Authentication ActionCredentials { get; set; }
+        public string ActionUsername { get; set; }
+
+        [Persistent]
+        public string ActionPassword { get; set; }
 
         [Persistent]
         public string ActionServer { get; set; }
@@ -30,6 +33,8 @@ namespace Inedo.BuildMasterExtensions.Artifactory
         public string RepositoryKey { get; set; }
 
         public bool UsesRepositoryKey { get; set; }
+
+        public bool ForceAuthorizationHeader { get; set; }
 
         protected ArtifactoryConfigurer Configurer
         {
@@ -47,9 +52,9 @@ namespace Inedo.BuildMasterExtensions.Artifactory
             get
             {
                 // use local first
-                if (null != ActionCredentials)
-                    return ActionCredentials;
-                return Configurer.Credentials;
+                if (null != ActionUsername )
+                    return new Authentication() {Username = ActionUsername, Password = ActionPassword } ;
+                return new Authentication() { Username = Configurer.Username, Password = Configurer.Password };
             }
         }
 
@@ -64,7 +69,21 @@ namespace Inedo.BuildMasterExtensions.Artifactory
             }
         }
 
-        internal Response  Request(RequestType RequestType, string Payload, string UriFormat, params object[] args)
+        protected string ResolveDirectory(string FilePath)
+        {
+            if (null != this.TestConfigurer)
+                return FilePath;
+            using (var sourceAgent = (IFileOperationsExecuter)Util.Agents.CreateAgentFromId(1))
+            {
+                char srcSeparator = sourceAgent.GetDirectorySeparator();
+                var srcPath = sourceAgent.GetWorkingDirectory(this.Context.ApplicationId, this.Context.DeployableId, FilePath);
+
+                LogInformation("Source Path: " + srcPath);
+                return srcPath;
+            }
+        }
+
+        internal Response Request(RequestType RequestType, string Payload, string UriFormat, params object[] args)
         {
             Response retval = new Response();
             var uri = new Uri(string.Format(UriFormat, args));
@@ -87,6 +106,11 @@ namespace Inedo.BuildMasterExtensions.Artifactory
                 default:
                     req.Method = "GET";
                     break;
+            }
+            if (this.ForceAuthorizationHeader)
+            {
+                string credentials = Convert.ToBase64String(ASCIIEncoding.ASCII.GetBytes(this.Credentials.Username + ":" + this.Credentials.Password));
+                req.Headers.Add("Authorization", "Basic " + credentials);
             }
             req.ContentType = "application/json";
             if (!string.IsNullOrEmpty(Payload))

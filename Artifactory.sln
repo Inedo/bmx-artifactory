@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Artifactory", "Artifactory\Artifactory.csproj", "{BF9A1E21-69AD-46CA-8151-D4570E0E527C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Artifactory.Tests", "Artifactory.Tests\Artifactory.Tests.csproj", "{F1C29F6B-01B2-4C1A-AD8E-44B5B76CDCA8}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,10 +13,6 @@ Global
 		{BF9A1E21-69AD-46CA-8151-D4570E0E527C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BF9A1E21-69AD-46CA-8151-D4570E0E527C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BF9A1E21-69AD-46CA-8151-D4570E0E527C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F1C29F6B-01B2-4C1A-AD8E-44B5B76CDCA8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F1C29F6B-01B2-4C1A-AD8E-44B5B76CDCA8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F1C29F6B-01B2-4C1A-AD8E-44B5B76CDCA8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F1C29F6B-01B2-4C1A-AD8E-44B5B76CDCA8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

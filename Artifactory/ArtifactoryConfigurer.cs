@@ -6,13 +6,18 @@ using Inedo.BuildMaster.Web;
 
 namespace Inedo.BuildMasterExtensions.Artifactory
 {
+
+    [CustomEditor(typeof(ArtifactoryConfigurerEditor))]
     public class ArtifactoryConfigurer : ExtensionConfigurerBase 
     {
         [Persistent]
         public string Server { get; set; }
 
         [Persistent]
-        public Authentication Credentials { get; set; }
+        public string Username { get; set; }
+
+        [Persistent]
+        public string Password { get; set; }
 
         public override string ToString()
         {

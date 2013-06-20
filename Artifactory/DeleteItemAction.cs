@@ -12,23 +12,24 @@ using Inedo.BuildMaster.Web;
 namespace Inedo.BuildMasterExtensions.Artifactory
 {
     [ActionProperties(
-        "Create Directory",
-        "Creates a new directory in the specified location.",
+        "Delete Item",
+        "Recursively deletes an item (artifact or directory) from a repository.",
         "Artifactory")]
-    [CustomEditor(typeof(CreateDirectoryActionEditor))]
-    public class CreateDirectoryAction : ArtifactoryActionBase 
+    [CustomEditor(typeof(DeleteItemActionEditor))]
+    public class DeleteItemAction : ArtifactoryActionBase 
     {
         [Persistent]
-        public string DirectoryName {get;set;}
+        public string ItemName {get;set;}
 
         public override string ToString()
         {
-            return string.Format("Create directory named {0} in repository {1}", this.DirectoryName, this.RepositoryKey);
+            return string.Format("Delete {0} from repository {1}", this.ItemName, this.RepositoryKey);
         }
 
-        public CreateDirectoryAction()
+        public DeleteItemAction()
         {
             this.UsesRepositoryKey = true;
+            this.ForceAuthorizationHeader = true;
         }
 
         internal string Test()
@@ -50,10 +51,10 @@ namespace Inedo.BuildMasterExtensions.Artifactory
         {
             string url = this.Server.EndsWith("/") ? this.Server : this.Server + "/" + 
                 "{0}/{1}";
-            var resp = Request(RequestType.Put,null,url,this.RepositoryKey, this.DirectoryName.EndsWith("/") ? this.DirectoryName : this.DirectoryName + "/");
-            if (HttpStatusCode.Created != resp.StatusCode)
+            var resp = Request(RequestType.Delete ,null,url,this.RepositoryKey, this.ItemName);
+            if (HttpStatusCode.NoContent != resp.StatusCode)
             {
-                LogError("Error creating Artifactory directory {0} in repository {1}. Error code is {2}", this.DirectoryName, this.RepositoryKey, resp.StatusCode);
+                LogError("Error deleting {0} in repository {1}. Error code is {2}", this.ItemName, this.RepositoryKey, resp.StatusCode);
                 return null;
             }
             return "OK";
