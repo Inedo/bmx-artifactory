@@ -14,11 +14,9 @@ using Inedo.BuildMaster.Extensibility.Agents;
 
 namespace Inedo.BuildMasterExtensions.Artifactory
 {
-    public abstract class ArtifactoryActionBase : CommandLineActionBase
+    public abstract class ArtifactoryActionBase : RemoteActionBase
     {
         internal protected enum RequestType { Get, Post, Delete, Put };
-
-        internal ArtifactoryConfigurer TestConfigurer { get; set; }
 
         [Persistent]
         public string ActionUsername { get; set; }
@@ -40,10 +38,12 @@ namespace Inedo.BuildMasterExtensions.Artifactory
         {
             get
             {
-                if (null != TestConfigurer)
-                    return TestConfigurer;
-                else
-                    return Util.Actions.GetConfigurer(GetType()) as ArtifactoryConfigurer;
+                return this.GetExtensionConfigurer() as ArtifactoryConfigurer;
+
+                //if (null != TestConfigurer)
+                //    return TestConfigurer;
+                //else
+                //    return Util.Actions.GetConfigurer(GetType()) as ArtifactoryConfigurer;
             }
         }
 
@@ -71,12 +71,12 @@ namespace Inedo.BuildMasterExtensions.Artifactory
 
         protected string ResolveDirectory(string FilePath)
         {
-            if (null != this.TestConfigurer)
-                return FilePath;
-            using (var sourceAgent = (IFileOperationsExecuter)Util.Agents.CreateAgentFromId(1))
+            using (var sourceAgent2 = Util.Agents.CreateLocalAgent())
             {
+                var sourceAgent = sourceAgent2.GetService<IFileOperationsExecuter>();
+
                 char srcSeparator = sourceAgent.GetDirectorySeparator();
-                var srcPath = sourceAgent.GetWorkingDirectory(this.Context.ApplicationId, this.Context.DeployableId, FilePath);
+                var srcPath = sourceAgent.GetWorkingDirectory(this.Context.ApplicationId, this.Context.DeployableId ?? 0, FilePath);
 
                 LogInformation("Source Path: " + srcPath);
                 return srcPath;
